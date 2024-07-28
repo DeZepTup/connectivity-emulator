@@ -17,3 +17,12 @@ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 80
 
 ## Enable NAT
 sudo iptables -t nat -A POSTROUTING -o wlan2 -j MASQUERADE
+
+## Install flask and gunicorn
+venv/bin/pip install flask gunicorn
+
+## Activate venv
+source venv/bin/activate
+
+## Run
+gunicorn -w 4 -b 0.0.0.0:8000 app:app

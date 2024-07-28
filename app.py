@@ -78,6 +78,11 @@ class StripServerHeaderMiddleware:
             headers = [
                 (name, value) for name, value in headers if name.lower() != "server"
             ]
+            headers = [
+                (name, value)
+                for name, value in headers
+                if not (name.lower() == "date" and "Date" in dict(headers))
+            ]
             return start_response(status, headers, exc_info)
 
         return self.app(environ, custom_start_response)
@@ -85,4 +90,4 @@ class StripServerHeaderMiddleware:
 
 if __name__ == "__main__":
     app.wsgi_app = StripServerHeaderMiddleware(app.wsgi_app)
-    app.run(host="0.0.0.0", port=80)
+    app.run(host="0.0.0.0", port=8000)
