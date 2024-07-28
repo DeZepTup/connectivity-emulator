@@ -69,5 +69,20 @@ def connectivity_check_ubuntu():
     return response
 
 
+class StripServerHeaderMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        def custom_start_response(status, headers, exc_info=None):
+            headers = [
+                (name, value) for name, value in headers if name.lower() != "server"
+            ]
+            return start_response(status, headers, exc_info)
+
+        return self.app(environ, custom_start_response)
+
+
 if __name__ == "__main__":
+    app.wsgi_app = StripServerHeaderMiddleware(app.wsgi_app)
     app.run(host="0.0.0.0", port=80)
