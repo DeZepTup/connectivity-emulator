@@ -16,4 +16,4 @@ sudo iptables -A INPUT -i lo -j ACCEPT && sudo iptables -A OUTPUT -o lo -j ACCEP
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 80
 
 ## Enable NAT
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o wlan2 -j MASQUERADE
