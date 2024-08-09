@@ -13,7 +13,7 @@ sudo sysctl -p
 sudo iptables -A INPUT -i lo -j ACCEPT && sudo iptables -A OUTPUT -o lo -j ACCEPT
 
 ## Redirect HTTP traffic to the Flask app (assuming Flask runs on port 80)
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 80
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8000
 
 ## Enable NAT
 sudo iptables -t nat -A POSTROUTING -o wlan2 -j MASQUERADE
@@ -25,4 +25,4 @@ venv/bin/pip install flask gunicorn
 source venv/bin/activate
 
 ## Run
-gunicorn -w 4 -b 0.0.0.0:8000 app:app
+gunicorn --header-map -w 4 -b 0.0.0.0:8000 app:app
